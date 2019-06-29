@@ -1,0 +1,109 @@
+@label("Cadastros") //xxx
+domain cadastros
+
+@label("Cliente")
+service cliente {
+	
+	config {
+		groupId: "br.com.kerubin.api"
+		version: "1.0.0"
+		cloudConfigUri: "http://localhost:9091" //xx
+		servicePort: 0
+		
+		messagingCore {version:"1.0.0"}
+		databaseCore {version:"1.0.0"}
+	}
+	
+	@publishEvents
+	@label("Cliente")
+	entity Cliente {		
+		
+		//--
+		nome: string
+		label: "Nome"
+		publishedInEvents
+		listFilter(many: "Clientes")
+		web(styleClass: "ui-md-6")
+		
+		cpfCNPJ: string?
+		label: "Documento (CNPJ/CPF)"
+		publishedInEvents
+		web(styleClass: "ui-md-4")
+		
+		ieRG: string?
+		label: "Documento (IE/RG)"
+		web(styleClass: "ui-md-2")
+		grid(hidden) 
+		//--
+		
+		nomeContato: string?
+		label: "Nome para contato"
+		web(styleClass: "ui-md-6")
+		grid(hidden) 
+		
+		fone: string?
+		label: "Telefone"
+		web(styleClass: "ui-md-3")
+		
+		celular: string?
+		label: "Celular"
+		web(styleClass: "ui-md-3")
+		
+		//--
+		email: string?
+		label: "E-mail"
+		web(styleClass: "ui-md-6")
+		
+		site: string?
+		label: "Site"
+		web(styleClass: "ui-md-6")
+		grid(hidden) 
+		//--
+		
+		///
+		CEP: string?
+		label: "CEP"
+		web(styleClass: "ui-md-2")
+		grid(hidden) 
+		
+		cidade: string?
+		label: "Cidade"
+		web(styleClass: "ui-md-5")
+		grid(hidden) 
+		
+		bairro: string?
+		label: "Bairro"
+		web(styleClass: "ui-md-5")
+		grid(hidden) 
+		
+		endereco: string?
+		label: "Endereço"
+		web(styleClass: "ui-md-7")
+		grid(hidden) 
+		
+		numero: string?
+		label: "Número"
+		web(styleClass: "ui-md-1")
+		grid(hidden) 
+		
+		complemento: string?
+		label: "Complemento"
+		web(styleClass: "ui-md-4")
+		grid(hidden) 
+		
+		///
+		
+		observacoes: string[1000]?
+		label: "Observações"
+		web(styleClass: "ui-md-11")
+		grid(hidden) 
+		
+		ativo: boolean default: true optional
+		label: "Ativo"
+		web(styleClass: "ui-md-1")
+		grid(hidden) 
+		
+		
+	}
+	
+}
