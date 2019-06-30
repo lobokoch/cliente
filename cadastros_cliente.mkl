@@ -1,4 +1,4 @@
-@label("Cadastros") //xxx
+@label("Cadastros") //xxxx
 domain cadastros
 
 @label("Cliente")
@@ -19,27 +19,38 @@ service cliente {
 	entity Cliente {		
 		
 		//--
+		tipoPessoa: TipoPessoa
+		label: "Tipo do cliente"
+		// publishedInEvents
+		web(styleClass: "ui-md-2")
+		grid(hidden)
+		
 		nome: string
 		label: "Nome"
 		publishedInEvents
 		listFilter(many: "Clientes")
-		web(styleClass: "ui-md-6")
+		web(styleClass: "ui-md-10")
+		/////
 		
-		cpfCNPJ: string?
+		cnpjCPF: string?
 		label: "Documento (CNPJ/CPF)"
 		publishedInEvents
-		web(styleClass: "ui-md-4")
+		web(styleClass: "ui-md-5")
 		
 		ieRG: string?
 		label: "Documento (IE/RG)"
-		web(styleClass: "ui-md-2")
-		grid(hidden) 
+		web(styleClass: "ui-md-4")
+		grid(hidden)
+		 
+		dataFundacaoNascimento: date optional
+		label: "Data (fundação/nascimento)"
+		web(styleClass: "ui-md-3")
+		grid(hidden)
 		//--
 		
 		nomeContato: string?
 		label: "Nome para contato"
 		web(styleClass: "ui-md-6")
-		grid(hidden) 
 		
 		fone: string?
 		label: "Telefone"
@@ -61,7 +72,7 @@ service cliente {
 		//--
 		
 		///
-		CEP: string?
+		cep: string?
 		label: "CEP"
 		web(styleClass: "ui-md-2")
 		grid(hidden) 
@@ -103,7 +114,16 @@ service cliente {
 		web(styleClass: "ui-md-1")
 		grid(hidden) 
 		
+	}
+	
+	@label("Tipo da pessoa")
+	enum TipoPessoa {		
+		PESSOA_JURIDICA
+		label: "Pessoa jurídica"
+		default
 		
+		PESSOA_FISICA
+		label: "Pessoa física"
 	}
 	
 }
