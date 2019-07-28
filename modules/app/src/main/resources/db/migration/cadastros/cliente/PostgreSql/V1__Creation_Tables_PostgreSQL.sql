@@ -15,6 +15,7 @@ CREATE TABLE cliente /* Cliente */  (
 	email VARCHAR(255),
 	site VARCHAR(255),
 	cep VARCHAR(255),
+	uf VARCHAR(2),
 	cidade VARCHAR(255),
 	bairro VARCHAR(255),
 	endereco VARCHAR(255),

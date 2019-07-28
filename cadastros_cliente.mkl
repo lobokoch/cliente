@@ -1,4 +1,4 @@
-@label("Cadastros") //xxxx
+@label("Cadastros") //xxx
 domain cadastros
 
 @label("Cliente")
@@ -21,7 +21,7 @@ service cliente {
 		//--
 		tipoPessoa: TipoPessoa
 		label: "Tipo do cliente"
-		// publishedInEvents
+		publishedInEvents
 		web(styleClass: "ui-md-2")
 		grid(hidden)
 		
@@ -75,18 +75,23 @@ service cliente {
 		cep: string?
 		label: "CEP"
 		web(styleClass: "ui-md-2")
+		grid(hidden)
+		
+		uf: UF?
+		web(styleClass: "ui-md-2")
 		grid(hidden) 
 		
 		cidade: string?
 		label: "Cidade"
-		web(styleClass: "ui-md-5")
+		web(styleClass: "ui-md-4")
 		grid(hidden) 
 		
 		bairro: string?
 		label: "Bairro"
-		web(styleClass: "ui-md-5")
+		web(styleClass: "ui-md-4")
 		grid(hidden) 
 		
+		////
 		endereco: string?
 		label: "Endereço"
 		web(styleClass: "ui-md-7")
@@ -124,6 +129,91 @@ service cliente {
 		
 		PESSOA_FISICA
 		label: "Pessoa física"
+	}
+	
+	@label("Estado")
+	enum UF {
+		AC
+		label: "Acre"
+		
+		AL
+		label: "Alagoas"
+		
+		AP
+		label: "Amapá"
+		
+		AM
+		label: "Amazonas"
+		
+		BA
+		label: "Bahia"
+		
+		CE
+		label: "Ceará"
+		
+		DF
+		label: "Distrito Federal"
+		
+		ES
+		label: "Espírito Santo"
+		
+		GO
+		label: "Goiás"
+		
+		MA
+		label: "Maranhão"
+		
+		MT
+		label: "Mato Grosso"
+		
+		MS
+		label: "Mato Grosso do Sul"
+		
+		MG
+		label: "Minas Gerais"
+		
+		PA
+		label: "Pará"
+		
+		PB
+		label: "Paraíba"
+		
+		PR
+		label: "Paraná"
+		
+		PE
+		label: "Pernambuco"
+		
+		PI
+		label: "Piauí"
+		
+		RJ
+		label: "Rio de Janeiro"
+		
+		RN
+		label: "Rio Grande do Norte"
+		
+		RS
+		label: "Rio Grande do Sul"
+		
+		RO
+		label: "Rondônia"
+		
+		RR
+		label: "Roraima"
+		
+		SC
+		label: "Santa Catarina"
+		default
+		
+		SP
+		label: "São Paulo"
+		
+		SE
+		label: "Sergipe"
+		
+		TO
+		label: "Tocantins"
 	}
 	
 }
