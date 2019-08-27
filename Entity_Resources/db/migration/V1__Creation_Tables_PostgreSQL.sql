@@ -30,3 +30,5 @@ ALTER TABLE cliente ADD CONSTRAINT pk_cliente_id PRIMARY KEY (id);
 
 /* FOREIGN KEYS */
 
+
+/* INDEXES */

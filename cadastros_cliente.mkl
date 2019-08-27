@@ -1,4 +1,4 @@
-@label("Cadastros") //xxx
+@label("Cadastros") //xx
 domain cadastros
 
 @label("Cliente")
@@ -7,7 +7,7 @@ service cliente {
 	config {
 		groupId: "br.com.kerubin.api"
 		version: "1.0.0"
-		cloudConfigUri: "http://localhost:9091" //xx
+		cloudConfigUri: "http://localhost:9091" //xxx
 		servicePort: 0
 		
 		messagingCore {version:"1.0.0"}
