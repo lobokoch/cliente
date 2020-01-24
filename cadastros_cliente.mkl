@@ -117,7 +117,19 @@ service cliente {
 		ativo: boolean default: true optional
 		label: "Ativo"
 		web(styleClass: "ui-md-1")
-		grid(hidden) 
+		grid(hidden)
+		
+		rules {//
+			with(form)
+			.apply(
+				searchCEP(cepField: cep 
+				ufField: uf 
+				localidadeField: cidade 
+				bairroField: bairro 
+				logradouroField: endereco 
+				complementoField: complemento
+			))
+		}
 		
 	}
 	
