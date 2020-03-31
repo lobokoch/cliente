@@ -85,14 +85,15 @@ public class ClienteServiceTest extends CadastrosClienteBaseEntityTest {
 		cliente.setId(java.util.UUID.randomUUID());
 		cliente.setTipoPessoa(TipoPessoa.PESSOA_JURIDICA);
 		cliente.setNome(generateRandomString(255));
-		cliente.setCnpjCPF(generateRandomString(255));
+		cliente.setMaisOpcoes(false);
+		cliente.setCnpjCPF("92020472007");
 		cliente.setIeRG(generateRandomString(255));
 		cliente.setDataFundacaoNascimento(getNextDate());
 		cliente.setNomeContato(generateRandomString(255));
 		cliente.setFone(generateRandomString(255));
 		cliente.setCelular(generateRandomString(255));
-		cliente.setEmail(generateRandomString(255));
-		cliente.setSite(generateRandomString(255));
+		cliente.setEmail("fortest@gmail.com");
+		cliente.setSite("http://www.fortest.com");
 		cliente.setCep(generateRandomString(255));
 		cliente.setUf(UF.SC);
 		cliente.setCidade(generateRandomString(255));
@@ -217,14 +218,15 @@ public class ClienteServiceTest extends CadastrosClienteBaseEntityTest {
 		
 		cliente.setTipoPessoa(TipoPessoa.PESSOA_JURIDICA);
 		cliente.setNome(generateRandomString(255));
-		cliente.setCnpjCPF(generateRandomString(255));
+		cliente.setMaisOpcoes(false);
+		cliente.setCnpjCPF("92020472007");
 		cliente.setIeRG(generateRandomString(255));
 		cliente.setDataFundacaoNascimento(getNextDate());
 		cliente.setNomeContato(generateRandomString(255));
 		cliente.setFone(generateRandomString(255));
 		cliente.setCelular(generateRandomString(255));
-		cliente.setEmail(generateRandomString(255));
-		cliente.setSite(generateRandomString(255));
+		cliente.setEmail("fortest@gmail.com");
+		cliente.setSite("http://www.fortest.com");
 		cliente.setCep(generateRandomString(255));
 		cliente.setUf(UF.SC);
 		cliente.setCidade(generateRandomString(255));
@@ -554,14 +556,15 @@ public class ClienteServiceTest extends CadastrosClienteBaseEntityTest {
 		
 		clienteEntity.setTipoPessoa(TipoPessoa.PESSOA_JURIDICA);
 		clienteEntity.setNome(generateRandomString(255));
-		clienteEntity.setCnpjCPF(generateRandomString(255));
+		clienteEntity.setMaisOpcoes(false);
+		clienteEntity.setCnpjCPF("92020472007");
 		clienteEntity.setIeRG(generateRandomString(255));
 		clienteEntity.setDataFundacaoNascimento(getNextDate());
 		clienteEntity.setNomeContato(generateRandomString(255));
 		clienteEntity.setFone(generateRandomString(255));
 		clienteEntity.setCelular(generateRandomString(255));
-		clienteEntity.setEmail(generateRandomString(255));
-		clienteEntity.setSite(generateRandomString(255));
+		clienteEntity.setEmail("fortest@gmail.com");
+		clienteEntity.setSite("http://www.fortest.com");
 		clienteEntity.setCep(generateRandomString(255));
 		clienteEntity.setUf(UF.SC);
 		clienteEntity.setCidade(generateRandomString(255));

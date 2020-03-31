@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
+import javax.persistence.Transient;
 import javax.persistence.GeneratedValue;
 import org.hibernate.annotations.GenericGenerator;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,9 @@ import javax.persistence.Enumerated;
 import br.com.kerubin.api.cadastros.cliente.TipoPessoa;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import br.com.kerubin.api.servicecore.validator.constraint.CpfOrCnpj;
+import javax.validation.constraints.Email;
+import org.hibernate.validator.constraints.URL;
 import br.com.kerubin.api.cadastros.cliente.UF;
 
 @Entity
@@ -36,16 +40,20 @@ public class ClienteEntity  {
 	@Column(name="tipo_pessoa")
 	private TipoPessoa tipoPessoa;
 	
-	@NotBlank(message="\"Nome\" é obrigatório.")
-	@Size(max = 255, message = "\"Nome\" pode ter no máximo 255 caracteres.")
+	@NotBlank(message="\"Nome/Razão Social\" é obrigatório.")
+	@Size(max = 255, message = "\"Nome/Razão Social\" pode ter no máximo 255 caracteres.")
 	@Column(name="nome")
 	private String nome;
 	
-	@Size(max = 255, message = "\"Documento (CNPJ/CPF)\" pode ter no máximo 255 caracteres.")
+	@Transient
+	private Boolean maisOpcoes = false;
+	
+	@Size(max = 255, message = "\"CPF/CNPJ\" pode ter no máximo 255 caracteres.")
+	@CpfOrCnpj(message="O 'CPF/CNPJ' informado é inválido.")
 	@Column(name="cnpj_cpf")
 	private String cnpjCPF;
 	
-	@Size(max = 255, message = "\"Documento (IE/RG)\" pode ter no máximo 255 caracteres.")
+	@Size(max = 255, message = "\"RG/IE\" pode ter no máximo 255 caracteres.")
 	@Column(name="ie_rg")
 	private String ieRG;
 	
@@ -65,10 +73,12 @@ public class ClienteEntity  {
 	private String celular;
 	
 	@Size(max = 255, message = "\"E-mail\" pode ter no máximo 255 caracteres.")
+	@Email(message="O 'E-mail' informado é inválido.")
 	@Column(name="email")
 	private String email;
 	
 	@Size(max = 255, message = "\"Site\" pode ter no máximo 255 caracteres.")
+	@URL(message="O 'Site' informado é inválido.")
 	@Column(name="site")
 	private String site;
 	
@@ -117,6 +127,10 @@ public class ClienteEntity  {
 	
 	public String getNome() {
 		return nome;
+	}
+	
+	public Boolean getMaisOpcoes() {
+		return maisOpcoes;
 	}
 	
 	public String getCnpjCPF() {
@@ -199,6 +213,10 @@ public class ClienteEntity  {
 		this.nome = nome != null ? nome.trim() : nome; // Chamadas REST fazem trim.
 	}
 	
+	public void setMaisOpcoes(Boolean maisOpcoes) {
+		this.maisOpcoes = maisOpcoes;
+	}
+	
 	public void setCnpjCPF(String cnpjCPF) {
 		this.cnpjCPF = cnpjCPF != null ? cnpjCPF.trim() : cnpjCPF; // Chamadas REST fazem trim.
 	}
@@ -272,6 +290,7 @@ public class ClienteEntity  {
 			this.setId(source.getId());
 			this.setTipoPessoa(source.getTipoPessoa());
 			this.setNome(source.getNome());
+			this.setMaisOpcoes(source.getMaisOpcoes());
 			this.setCnpjCPF(source.getCnpjCPF());
 			this.setIeRG(source.getIeRG());
 			this.setDataFundacaoNascimento(source.getDataFundacaoNascimento());
@@ -307,6 +326,7 @@ public class ClienteEntity  {
 		theClone.setId(this.getId());
 		theClone.setTipoPessoa(this.getTipoPessoa());
 		theClone.setNome(this.getNome());
+		theClone.setMaisOpcoes(this.getMaisOpcoes());
 		theClone.setCnpjCPF(this.getCnpjCPF());
 		theClone.setIeRG(this.getIeRG());
 		theClone.setDataFundacaoNascimento(this.getDataFundacaoNascimento());

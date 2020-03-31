@@ -16,100 +16,131 @@ service cliente {
 	}
 	
 	@publishEvents
-	@label("Cliente")
+	@label(title: "Clientes")
 	entity Cliente {		
 		
 		//--
 		tipoPessoa: TipoPessoa
 		label: "Tipo do cliente"
 		publishedInEvents
-		web(styleClass: "ui-md-2")
-		grid(hidden)
-		
-		nome: string
-		label: "Nome"
-		publishedInEvents
-		listFilter(many: "Clientes")
-		web(styleClass: "ui-md-10")
-		/////
-		
-		cnpjCPF: string?
-		label: "Documento (CNPJ/CPF)"
-		publishedInEvents
-		web(styleClass: "ui-md-5")
-		
-		ieRG: string?
-		label: "Documento (IE/RG)"
 		web(styleClass: "ui-md-4")
 		grid(hidden)
+		help(text: "Escolha se o cliente é pessoa Física ou Jurídica.")
+		
+		nome: string
+		label: "Nome/Razão Social"
+		publishedInEvents
+		listFilter(many: "Clientes")
+		web(styleClass: "ui-md-8")
+		help(text: "Informe o nome ou a razão social do cliente.")
+		autoFocus
+		/////
+		
+		/////////////////////////////
+		separator
+		maisOpcoes: boolean? transient
+		label: "Mostrar mais opções"
+		help(text: "Mostra ou oculta opções extras para o cliente")
+		web(styleClass: "ui-md-12")
+		grid(hidden)
+		
+		cnpjCPF: string?
+		label: "CPF/CNPJ"
+		validation(name: CpfOrCnpj 	message: "O 'CPF/CNPJ' informado é inválido.")
+		publishedInEvents
+		web(styleClass: "ui-md-5")
+		help(text: "Caso queira, informe o CPF/CNPJ do cliente.")
+		
+		ieRG: string?
+		label: "RG/IE"
+		web(styleClass: "ui-md-4")
+		grid(hidden)
+		help(text: "Caso queira, informe o RG (Registro Geral) ou IE (Inscrição Estadual) do cliente.")
 		 
 		dataFundacaoNascimento: date optional
-		label: "Data (fundação/nascimento)"
+		label: "Data (nascimento/fundação)"
 		web(styleClass: "ui-md-3")
 		grid(hidden)
+		help(text: "Caso queira, informe a data de nascimento/fundação do cliente.")
 		//--
 		
+		separator
 		nomeContato: string?
 		label: "Nome para contato"
 		web(styleClass: "ui-md-6")
+		help(text: "Caso queira, informe um nome para contato com o cliente.")
 		
 		fone: string?
 		label: "Telefone"
 		web(styleClass: "ui-md-3")
+		help(text: "Caso queira, informe o telefone do cliente.")
 		
 		celular: string?
 		label: "Celular"
 		web(styleClass: "ui-md-3")
+		help(text: "Caso queira, informe o celular do cliente.")
 		
-		//--
+		//----
 		email: string?
 		label: "E-mail"
+		validation(name: Email 	message: "O 'E-mail' informado é inválido.")
 		web(styleClass: "ui-md-6")
+		help(text: "Caso queira, informe o e-mail do cliente. Exemplo: kerubin.platform@gmail.com")
 		
 		site: string?
 		label: "Site"
+		validation(name: URL 	message: "O 'Site' informado é inválido.")
 		web(styleClass: "ui-md-6")
 		grid(hidden) 
+		help(text: "Caso queira, informe o site do cliente. Exemplo: https://www.kerubin.com.br")
 		//--
 		
 		///
+		separator
 		cep: string?
 		label: "CEP"
 		web(styleClass: "ui-md-2")
 		grid(hidden)
+		help(text: "Caso queira, informe o CEP do cliente e clique em 'Buscar'. Vários campos relacionados ao endereço serão preenchidos automaticamente.")
 		
 		uf: UF?
 		web(styleClass: "ui-md-2")
 		grid(hidden) 
+		help(text: "Caso queira, escolha o estado do cliente.")
 		
 		cidade: string?
 		label: "Cidade"
 		web(styleClass: "ui-md-4")
 		grid(hidden) 
+		help(text: "Caso queira, informe a cidade do cliente.")
 		
 		bairro: string?
 		label: "Bairro"
 		web(styleClass: "ui-md-4")
 		grid(hidden) 
+		help(text: "Caso queira, informe o bairro do cliente.")
 		
 		////
 		endereco: string?
 		label: "Endereço"
 		web(styleClass: "ui-md-7")
 		grid(hidden) 
+		help(text: "Caso queira, informe o endereço do cliente.")
 		
 		numero: string?
 		label: "Número"
 		web(styleClass: "ui-md-1")
 		grid(hidden) 
+		help(text: "Caso queira, informe o número do endereço do cliente.")
 		
 		complemento: string?
 		label: "Complemento"
 		web(styleClass: "ui-md-4")
 		grid(hidden) 
-		
+		help(text: "Caso queira, informe um complemento para o endereço do cliente.")		
 		///
 		
+		separator
 		observacoes: string[1000]?
 		label: "Observações"
 		web(styleClass: "ui-md-11")
@@ -119,8 +150,28 @@ service cliente {
 		label: "Ativo"
 		web(styleClass: "ui-md-1")
 		grid(hidden)
+		help(text: "Marca o cliente como Ativo ou Inativo. Apenas clientes Ativos podem ser usados.")
 		
 		rules {//
+			
+			with(cnpjCPF).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(ieRG).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(dataFundacaoNascimento).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(nomeContato).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(fone).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(celular).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(email).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(site).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(cep).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(uf).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(cidade).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(bairro).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(endereco).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(numero).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(complemento).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(observacoes).apply(hiddeComponent).when(maisOpcoes.isFalse)
+			with(ativo).apply(hiddeComponent).when(maisOpcoes.isFalse)
+		
 			with(form)
 			.apply(
 				searchCEP(cepField: cep 

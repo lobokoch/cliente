@@ -11,6 +11,9 @@ import javax.validation.constraints.NotNull;
 import br.com.kerubin.api.cadastros.cliente.TipoPessoa;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import br.com.kerubin.api.servicecore.validator.constraint.CpfOrCnpj;
+import javax.validation.constraints.Email;
+import org.hibernate.validator.constraints.URL;
 import br.com.kerubin.api.cadastros.cliente.UF;
 
 public class Cliente {
@@ -20,14 +23,17 @@ public class Cliente {
 	@NotNull(message="\"Tipo do cliente\" é obrigatório.")
 	private TipoPessoa tipoPessoa;
 	
-	@NotBlank(message="\"Nome\" é obrigatório.")
-	@Size(max = 255, message = "\"Nome\" pode ter no máximo 255 caracteres.")
+	@NotBlank(message="\"Nome/Razão Social\" é obrigatório.")
+	@Size(max = 255, message = "\"Nome/Razão Social\" pode ter no máximo 255 caracteres.")
 	private String nome;
 	
-	@Size(max = 255, message = "\"Documento (CNPJ/CPF)\" pode ter no máximo 255 caracteres.")
+	private Boolean maisOpcoes = false;
+	
+	@Size(max = 255, message = "\"CPF/CNPJ\" pode ter no máximo 255 caracteres.")
+	@CpfOrCnpj(message="O 'CPF/CNPJ' informado é inválido.")
 	private String cnpjCPF;
 	
-	@Size(max = 255, message = "\"Documento (IE/RG)\" pode ter no máximo 255 caracteres.")
+	@Size(max = 255, message = "\"RG/IE\" pode ter no máximo 255 caracteres.")
 	private String ieRG;
 	
 	private java.time.LocalDate dataFundacaoNascimento;
@@ -42,9 +48,11 @@ public class Cliente {
 	private String celular;
 	
 	@Size(max = 255, message = "\"E-mail\" pode ter no máximo 255 caracteres.")
+	@Email(message="O 'E-mail' informado é inválido.")
 	private String email;
 	
 	@Size(max = 255, message = "\"Site\" pode ter no máximo 255 caracteres.")
+	@URL(message="O 'Site' informado é inválido.")
 	private String site;
 	
 	@Size(max = 255, message = "\"CEP\" pode ter no máximo 255 caracteres.")
@@ -88,6 +96,10 @@ public class Cliente {
 	
 	public String getNome() {
 		return nome;
+	}
+	
+	public Boolean getMaisOpcoes() {
+		return maisOpcoes;
 	}
 	
 	public String getCnpjCPF() {
@@ -168,6 +180,10 @@ public class Cliente {
 	
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public void setMaisOpcoes(Boolean maisOpcoes) {
+		this.maisOpcoes = maisOpcoes;
 	}
 	
 	public void setCnpjCPF(String cnpjCPF) {
