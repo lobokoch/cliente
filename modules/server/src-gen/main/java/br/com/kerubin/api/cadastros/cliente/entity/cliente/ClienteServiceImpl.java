@@ -83,6 +83,16 @@ public class ClienteServiceImpl implements ClienteService {
 		publishEvent(entity, ClienteEvent.CLIENTE_DELETED);
 	}
 	
+	@Transactional
+	@Override
+	public void deleteInBulk(java.util.List<java.util.UUID> idList) {
+		// Delete it.
+		clienteRepository.deleteInBulk(idList);
+		
+		// Force flush to the database, for relationship validation and must throw exception because of this here.
+		clienteRepository.flush();
+	}
+	
 	protected void publishEvent(ClienteEntity entity, String eventName) {
 		DomainEvent event = new ClienteEvent(entity.getId(), 
 			entity.getTipoPessoa(), 

@@ -34,6 +34,7 @@ service cliente {
 		web(styleClass: "ui-md-8")
 		help(text: "Informe o nome ou a razão social do cliente.")
 		autoFocus
+		unaccent
 		/////
 		
 		/////////////////////////////
