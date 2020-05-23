@@ -41,7 +41,7 @@ public class Compromisso {
 	@Size(max = 255, message = "\"Local\" pode ter no máximo 255 caracteres.")
 	private String local;
 	
-	private java.util.List<RecursoLookupResult> recursos;
+	private java.util.Set<RecursoLookupResult> recursos;
 	
 	@Size(max = 255, message = "\"Criado por\" pode ter no máximo 255 caracteres.")
 	private String createdBy;
@@ -99,7 +99,7 @@ public class Compromisso {
 		return local;
 	}
 	
-	public java.util.List<RecursoLookupResult> getRecursos() {
+	public java.util.Set<RecursoLookupResult> getRecursos() {
 		return recursos;
 	}
 	
@@ -159,7 +159,7 @@ public class Compromisso {
 		this.local = local;
 	}
 	
-	public void setRecursos(java.util.List<RecursoLookupResult> recursos) {
+	public void setRecursos(java.util.Set<RecursoLookupResult> recursos) {
 		this.recursos = recursos;
 	}
 	
