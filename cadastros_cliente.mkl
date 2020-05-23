@@ -186,6 +186,114 @@ service cliente {
 		
 	}
 	
+	@label(title:"Recurso") //
+	@help(text: "Nesta tela, cadastre novos recursos para usar em seus compromissos.")
+	@auditing
+	entity recurso {
+		nome: string
+		label: "Nome"
+		listFilter(many: "Recursos")
+		web(styleClass: "ui-md-12")
+		help(text: "Informe um nome para o recurso.")
+		autoFocus
+		unaccent
+		
+		email: string?
+		label: "E-mail"
+		validation(name: Email 	message: "O 'E-mail' informado é inválido.")
+		web(styleClass: "ui-md-12")
+		help(text: "Caso o recurso seja um usuário do Kerubin, informe o e-mail de login deste usuário, exemplo: fulano@gmail.com. Assim este usuário conseguirá manipular sua agenda.")
+		
+		ativo: boolean default: true optional
+		label: "Ativo"
+		web(styleClass: "ui-md-1")
+		grid(hidden)
+		help(text: "Marca o recurso como Ativo ou Inativo. Apenas recursos Ativos podem ser usados.")
+		
+		/*usuarioKerubin: boolean?
+		label: "Usuário do Kerubin"
+		web(styleClass: "ui-md-1")
+		grid(hidden)
+		help(text: "Marque esta opção para indicar que o recurso é um usuário cadastrado no Kerubin. Este usuário será notificado de seus agendamentos.")
+		*/
+		
+		/*usuarioId: uuid?
+		label: "Identificador do usuário no Kerubin"
+		web(styleClass: "ui-md-11")
+		grid(hidden)
+		help(text: "Id de identificação do usuário no Kerubin.")*/
+	}
+	
+	@label(title:"Compromisso") //
+	@help(text: "Nesta tela, cadastre novos agendamentos de compromissos.")
+	@auditing
+	entity compromisso {
+		titulo: string
+		label: "Título"
+		listFilter(many: "Assuntos")
+		web(styleClass: "ui-md-12")
+		help(text: "Informe o título desse compromisso.")
+		autoFocus
+		unaccent
+		
+		separator /* SEPARATOR */
+		cliente: refers Cliente? manyToOne
+		label: "Cliente"
+		web(styleClass: "ui-md-12")
+		help(text: "Caso tenha, escolha o cliente relacionado a este compromisso.")
+		
+		separator /* SEPARATOR */
+		dataIni: date
+		label: "Data de início"
+		web(styleClass: "ui-md-2")
+		sort(order: asc position: 0)
+		help(text: "Informe a data de início desse compromisso.")
+		
+		horaIni: time
+		label: "Hora de início"
+		web(styleClass: "ui-md-2")
+		sort(order: asc position: 0)
+		help(text: "Informe a hora de início desse compromisso.")
+		
+		dataFim: date?
+		label: "Data de término"
+		web(styleClass: "ui-md-2")
+		sort(order: asc position: 0)
+		help(text: "Informe a data de término desse compromisso.")
+		
+		horaFim: time?
+		label: "Hora de término"
+		web(styleClass: "ui-md-2")
+		sort(order: asc position: 0)
+		help(text: "Informe a hora de término desse compromisso.")
+		
+		diaTodo: boolean?
+		label: "O dia todo"
+		web(styleClass: "ui-md-1")
+		sort(order: asc position: 0)
+		help(text: "Marque essa opção caso o compromisso dure o dia todo.")
+		
+		separator /* SEPARATOR */
+		descricao: string[1000]?
+		label: "Descrição"
+		web(styleClass: "ui-md-12")
+		help(text: "Informe uma descrição para o compromisso.")
+		
+		local: string?
+		label: "Local"
+		web(styleClass: "ui-md-12")
+		help(text: "Informe o local do compromisso.")
+		autoFocus
+		unaccent
+		
+		recursos: refers recurso? oneToMany(owner)
+		label: "Recursos"
+		web(styleClass: "ui-md-12")
+		help(text: "Informe os recursos desse compromisso.")
+	}
+	
+	
+	
 	@label("Tipo da pessoa")
 	enum TipoPessoa {		
 		PESSOA_JURIDICA
