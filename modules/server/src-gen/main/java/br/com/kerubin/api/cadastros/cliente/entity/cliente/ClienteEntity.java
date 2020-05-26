@@ -202,86 +202,107 @@ public class ClienteEntity  {
 	}
 	
 	public void setId(java.util.UUID id) {
+		
 		this.id = id;
 	}
 	
 	public void setTipoPessoa(TipoPessoa tipoPessoa) {
+		
 		this.tipoPessoa = tipoPessoa;
 	}
 	
 	public void setNome(String nome) {
+		
 		this.nome = nome != null ? nome.trim() : nome; // Chamadas REST fazem trim.
 	}
 	
 	public void setMaisOpcoes(Boolean maisOpcoes) {
+		
 		this.maisOpcoes = maisOpcoes;
 	}
 	
 	public void setCnpjCPF(String cnpjCPF) {
+		
 		this.cnpjCPF = cnpjCPF != null ? cnpjCPF.trim() : cnpjCPF; // Chamadas REST fazem trim.
 	}
 	
 	public void setIeRG(String ieRG) {
+		
 		this.ieRG = ieRG != null ? ieRG.trim() : ieRG; // Chamadas REST fazem trim.
 	}
 	
 	public void setDataFundacaoNascimento(java.time.LocalDate dataFundacaoNascimento) {
+		
 		this.dataFundacaoNascimento = dataFundacaoNascimento;
 	}
 	
 	public void setNomeContato(String nomeContato) {
+		
 		this.nomeContato = nomeContato != null ? nomeContato.trim() : nomeContato; // Chamadas REST fazem trim.
 	}
 	
 	public void setFone(String fone) {
+		
 		this.fone = fone != null ? fone.trim() : fone; // Chamadas REST fazem trim.
 	}
 	
 	public void setCelular(String celular) {
+		
 		this.celular = celular != null ? celular.trim() : celular; // Chamadas REST fazem trim.
 	}
 	
 	public void setEmail(String email) {
+		
 		this.email = email != null ? email.trim() : email; // Chamadas REST fazem trim.
 	}
 	
 	public void setSite(String site) {
+		
 		this.site = site != null ? site.trim() : site; // Chamadas REST fazem trim.
 	}
 	
 	public void setCep(String cep) {
+		
 		this.cep = cep != null ? cep.trim() : cep; // Chamadas REST fazem trim.
 	}
 	
 	public void setUf(UF uf) {
+		
 		this.uf = uf;
 	}
 	
 	public void setCidade(String cidade) {
+		
 		this.cidade = cidade != null ? cidade.trim() : cidade; // Chamadas REST fazem trim.
 	}
 	
 	public void setBairro(String bairro) {
+		
 		this.bairro = bairro != null ? bairro.trim() : bairro; // Chamadas REST fazem trim.
 	}
 	
 	public void setEndereco(String endereco) {
+		
 		this.endereco = endereco != null ? endereco.trim() : endereco; // Chamadas REST fazem trim.
 	}
 	
 	public void setNumero(String numero) {
+		
 		this.numero = numero != null ? numero.trim() : numero; // Chamadas REST fazem trim.
 	}
 	
 	public void setComplemento(String complemento) {
+		
 		this.complemento = complemento != null ? complemento.trim() : complemento; // Chamadas REST fazem trim.
 	}
 	
 	public void setObservacoes(String observacoes) {
+		
 		this.observacoes = observacoes != null ? observacoes.trim() : observacoes; // Chamadas REST fazem trim.
 	}
 	
 	public void setAtivo(Boolean ativo) {
+		
 		this.ativo = ativo;
 	}
 	
