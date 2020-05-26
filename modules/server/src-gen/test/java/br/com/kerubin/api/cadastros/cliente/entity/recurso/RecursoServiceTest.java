@@ -390,6 +390,7 @@ public class RecursoServiceTest extends CadastrosClienteBaseEntityTest {
 		
 		recurso.setId(recursoEntity.getId());
 		recurso.setNome(recursoEntity.getNome());
+		recurso.setEmail(recursoEntity.getEmail());
 		
 		return recurso;
 	}

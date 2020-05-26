@@ -11,6 +11,7 @@ import br.com.kerubin.api.cadastros.cliente.entity.cliente.ClienteEntity;
 import br.com.kerubin.api.cadastros.cliente.entity.recurso.RecursoEntity;
 import br.com.kerubin.api.cadastros.cliente.entity.cliente.ClienteLookupResult;
 import br.com.kerubin.api.cadastros.cliente.entity.recurso.RecursoLookupResult;
+import br.com.kerubin.api.cadastros.cliente.CompromissoSituacao;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -104,6 +105,7 @@ public class CompromissoServiceTest extends CadastrosClienteBaseEntityTest {
 		compromisso.setDataFim(getNextDate());
 		compromisso.setHoraFim(java.time.LocalTime.now());
 		compromisso.setDiaTodo(false);
+		compromisso.setSituacao(CompromissoSituacao.NAO_INICIADO);
 		compromisso.setDescricao(generateRandomString(1000));
 		compromisso.setLocal(generateRandomString(255));
 		
@@ -140,6 +142,7 @@ public class CompromissoServiceTest extends CadastrosClienteBaseEntityTest {
 		compromisso.setTitulo(generateRandomString(255));
 		compromisso.setDataIni(getNextDate());
 		compromisso.setHoraIni(java.time.LocalTime.now());
+		compromisso.setSituacao(CompromissoSituacao.NAO_INICIADO);
 		CompromissoEntity compromissoEntity = compromissoService.create(compromisso);
 		em.flush();
 		verify(publisher, times(0)).publish(any());
@@ -191,6 +194,7 @@ public class CompromissoServiceTest extends CadastrosClienteBaseEntityTest {
 		compromisso.setDataFim(getNextDate());
 		compromisso.setHoraFim(java.time.LocalTime.now());
 		compromisso.setDiaTodo(false);
+		compromisso.setSituacao(CompromissoSituacao.NAO_INICIADO);
 		compromisso.setDescricao(generateRandomString(1000));
 		compromisso.setLocal(generateRandomString(255));
 		
@@ -231,6 +235,7 @@ public class CompromissoServiceTest extends CadastrosClienteBaseEntityTest {
 		compromisso.setTitulo(generateRandomString(255));
 		compromisso.setDataIni(getNextDate());
 		compromisso.setHoraIni(java.time.LocalTime.now());
+		compromisso.setSituacao(CompromissoSituacao.NAO_INICIADO);
 		CompromissoEntity compromissoEntity = compromissoService.update(id, compromisso);
 		em.flush();
 		verify(publisher, times(0)).publish(any());
@@ -578,6 +583,7 @@ public class CompromissoServiceTest extends CadastrosClienteBaseEntityTest {
 		compromissoEntity.setDataFim(getNextDate());
 		compromissoEntity.setHoraFim(java.time.LocalTime.now());
 		compromissoEntity.setDiaTodo(false);
+		compromissoEntity.setSituacao(CompromissoSituacao.NAO_INICIADO);
 		compromissoEntity.setDescricao(generateRandomString(1000));
 		compromissoEntity.setLocal(generateRandomString(255));
 		
@@ -653,6 +659,7 @@ public class CompromissoServiceTest extends CadastrosClienteBaseEntityTest {
 		
 		recurso.setId(recursoEntity.getId());
 		recurso.setNome(recursoEntity.getNome());
+		recurso.setEmail(recursoEntity.getEmail());
 		
 		return recurso;
 	}

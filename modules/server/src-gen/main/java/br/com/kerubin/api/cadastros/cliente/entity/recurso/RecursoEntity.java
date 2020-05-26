@@ -58,18 +58,22 @@ public class RecursoEntity extends AuditingEntity {
 	}
 	
 	public void setId(java.util.UUID id) {
+		
 		this.id = id;
 	}
 	
 	public void setNome(String nome) {
+		
 		this.nome = nome != null ? nome.trim() : nome; // Chamadas REST fazem trim.
 	}
 	
 	public void setEmail(String email) {
+		
 		this.email = email != null ? email.trim() : email; // Chamadas REST fazem trim.
 	}
 	
 	public void setAtivo(Boolean ativo) {
+		
 		this.ativo = ativo;
 	}
 	

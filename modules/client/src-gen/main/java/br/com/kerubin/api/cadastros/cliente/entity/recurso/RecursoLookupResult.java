@@ -13,6 +13,8 @@ public class RecursoLookupResult {
 	
 	private String nome;
 	
+	private String email;
+	
 	
 	public RecursoLookupResult() {
 		// Contructor for reflexion, injection, Jackson, QueryDSL, etc proposal.
@@ -27,12 +29,20 @@ public class RecursoLookupResult {
 		return nome;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+	
 	public void setId(java.util.UUID id) {
 		this.id = id;
 	}
 	
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	@Override

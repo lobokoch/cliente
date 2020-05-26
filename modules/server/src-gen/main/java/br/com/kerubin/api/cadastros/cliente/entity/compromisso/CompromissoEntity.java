@@ -21,13 +21,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import br.com.kerubin.api.cadastros.cliente.CompromissoSituacao;
 import br.com.kerubin.api.cadastros.cliente.entity.recurso.RecursoEntity;
 import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
 import javax.persistence.JoinTable;
-import java.util.List;
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 @Entity
@@ -66,6 +66,11 @@ public class CompromissoEntity extends AuditingEntity {
 	@Column(name="dia_todo")
 	private Boolean diaTodo = false;
 	
+	@NotNull(message="\"Situação\" é obrigatório.")
+	@Enumerated(EnumType.STRING)
+	@Column(name="situacao")
+	private CompromissoSituacao situacao;
+	
 	@Size(max = 1000, message = "\"Descrição\" pode ter no máximo 1000 caracteres.")
 	@Column(name="descricao")
 	private String descricao;
@@ -74,10 +79,10 @@ public class CompromissoEntity extends AuditingEntity {
 	@Column(name="local")
 	private String local;
 	
-	@OneToMany(fetch = FetchType.LAZY/*, cascade = {CascadeType.PERSIST, CascadeType.MERGE}*/)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "compromisso_recursos",
-		joinColumns = @JoinColumn(name = "compromisso_id"/*, referencedColumnName = "id"*/),
-		inverseJoinColumns = @JoinColumn(name = "recurso_id"/*, referencedColumnName = "id"*/)
+		joinColumns = @JoinColumn(name = "compromisso_id"),
+		inverseJoinColumns = @JoinColumn(name = "recurso_id")
 	)
 	private Set<RecursoEntity> recursos = new HashSet<>();
 	
@@ -113,6 +118,10 @@ public class CompromissoEntity extends AuditingEntity {
 		return diaTodo;
 	}
 	
+	public CompromissoSituacao getSituacao() {
+		return situacao;
+	}
+	
 	public String getDescricao() {
 		return descricao;
 	}
@@ -126,47 +135,71 @@ public class CompromissoEntity extends AuditingEntity {
 	}
 	
 	public void setId(java.util.UUID id) {
+		
 		this.id = id;
 	}
 	
 	public void setTitulo(String titulo) {
+		
 		this.titulo = titulo != null ? titulo.trim() : titulo; // Chamadas REST fazem trim.
 	}
 	
 	public void setCliente(ClienteEntity cliente) {
+		
 		this.cliente = cliente;
 	}
 	
 	public void setDataIni(java.time.LocalDate dataIni) {
+		
 		this.dataIni = dataIni;
 	}
 	
 	public void setHoraIni(java.time.LocalTime horaIni) {
+		
 		this.horaIni = horaIni;
 	}
 	
 	public void setDataFim(java.time.LocalDate dataFim) {
+		
 		this.dataFim = dataFim;
 	}
 	
 	public void setHoraFim(java.time.LocalTime horaFim) {
+		
 		this.horaFim = horaFim;
 	}
 	
 	public void setDiaTodo(Boolean diaTodo) {
+		
 		this.diaTodo = diaTodo;
 	}
 	
+	public void setSituacao(CompromissoSituacao situacao) {
+		
+		this.situacao = situacao;
+	}
+	
 	public void setDescricao(String descricao) {
+		
 		this.descricao = descricao != null ? descricao.trim() : descricao; // Chamadas REST fazem trim.
 	}
 	
 	public void setLocal(String local) {
+		
 		this.local = local != null ? local.trim() : local; // Chamadas REST fazem trim.
 	}
 	
 	public void setRecursos(java.util.Set<RecursoEntity> recursos) {
-		this.recursos = recursos;
+		
+		// First remove existing items.
+		if (this.recursos != null) {
+			this.recursos.clear();
+			// this.recursos.forEach(this::removeRecurso);
+		}
+		
+		if (recursos != null) {
+			recursos.forEach(this::addRecurso);
+		}
 	}
 	
 	public void addRecurso(RecursoEntity recurso) {
@@ -187,6 +220,7 @@ public class CompromissoEntity extends AuditingEntity {
 			this.setDataFim(source.getDataFim());
 			this.setHoraFim(source.getHoraFim());
 			this.setDiaTodo(source.getDiaTodo());
+			this.setSituacao(source.getSituacao());
 			this.setDescricao(source.getDescricao());
 			this.setLocal(source.getLocal());
 			this.setRecursos(source.getRecursos());
@@ -217,6 +251,7 @@ public class CompromissoEntity extends AuditingEntity {
 		theClone.setDataFim(this.getDataFim());
 		theClone.setHoraFim(this.getHoraFim());
 		theClone.setDiaTodo(this.getDiaTodo());
+		theClone.setSituacao(this.getSituacao());
 		theClone.setDescricao(this.getDescricao());
 		theClone.setLocal(this.getLocal());
 		theClone.setRecursos(this.getRecursos() != null ? this.getRecursos().stream().map(it -> it.clone(visited)).collect(java.util.stream.Collectors.toSet()) : null);

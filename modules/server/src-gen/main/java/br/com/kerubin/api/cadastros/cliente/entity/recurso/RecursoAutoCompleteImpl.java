@@ -17,6 +17,8 @@ public class RecursoAutoCompleteImpl implements RecursoAutoComplete {
 	
 	private String nome;
 	
+	private String email;
+	
 	public RecursoAutoCompleteImpl() {
 		// Contructor for reflexion, injection, Jackson, QueryDSL, etc proposal.
 	}

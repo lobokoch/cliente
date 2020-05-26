@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import br.com.kerubin.api.cadastros.cliente.entity.cliente.ClienteLookupResult;
 import javax.validation.constraints.NotNull;
+import br.com.kerubin.api.cadastros.cliente.CompromissoSituacao;
 import br.com.kerubin.api.cadastros.cliente.entity.recurso.RecursoLookupResult;
 
 public class Compromisso {
@@ -34,6 +35,9 @@ public class Compromisso {
 	private java.time.LocalTime horaFim;
 	
 	private Boolean diaTodo = false;
+	
+	@NotNull(message="\"Situação\" é obrigatório.")
+	private CompromissoSituacao situacao;
 	
 	@Size(max = 1000, message = "\"Descrição\" pode ter no máximo 1000 caracteres.")
 	private String descricao;
@@ -89,6 +93,10 @@ public class Compromisso {
 	
 	public Boolean getDiaTodo() {
 		return diaTodo;
+	}
+	
+	public CompromissoSituacao getSituacao() {
+		return situacao;
 	}
 	
 	public String getDescricao() {
@@ -149,6 +157,10 @@ public class Compromisso {
 	
 	public void setDiaTodo(Boolean diaTodo) {
 		this.diaTodo = diaTodo;
+	}
+	
+	public void setSituacao(CompromissoSituacao situacao) {
+		this.situacao = situacao;
 	}
 	
 	public void setDescricao(String descricao) {

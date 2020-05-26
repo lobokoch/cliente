@@ -18,6 +18,7 @@ CREATE TABLE compromisso (
 	data_fim DATE /* dataFim */,
 	hora_fim TIME /* horaFim */,
 	dia_todo BOOLEAN DEFAULT false /* diaTodo */,
+	situacao VARCHAR(255) NOT NULL,
 	descricao VARCHAR(1000),
 	local VARCHAR(255),
 	created_by VARCHAR(255) /* createdBy */,

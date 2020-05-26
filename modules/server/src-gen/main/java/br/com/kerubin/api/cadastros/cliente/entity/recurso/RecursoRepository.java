@@ -25,7 +25,7 @@ public interface RecursoRepository extends JpaRepository<RecursoEntity, java.uti
 	
 	
 	// WARNING: supports only where clause with like for STRING fields. For relationships entities will get the first string autocomplete key field name.
-	@Query("select distinct ac.id as id, ac.nome as nome from RecursoEntity ac where ( upper(unaccent(ac.nome)) like upper(concat('%', unaccent(:query), '%')) ) order by 1 asc")
+	@Query("select distinct ac.id as id, ac.nome as nome, ac.email as email from RecursoEntity ac where ( upper(unaccent(ac.nome)) like upper(concat('%', unaccent(:query), '%')) ) or ( upper(ac.email) like upper(concat('%', :query, '%')) ) order by 1 asc")
 	Collection<RecursoAutoComplete> autoComplete(@Param("query") String query);
 	
 	// WARNING: supports only where clause with like for STRING fields. For relationships entities will get the first string autocomplete key field name.

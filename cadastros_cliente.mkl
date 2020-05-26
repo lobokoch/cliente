@@ -8,7 +8,7 @@ service cliente {
 	config {
 		groupId: "br.com.kerubin.api"
 		version: "1.0.0"
-		cloudConfigUri: "http://localhost:9091" //xxx
+		cloudConfigUri: "http://localhost:9091" //xxxx
 		servicePort: 0
 		
 		messagingCore {version:"1.0.0"}
@@ -186,12 +186,13 @@ service cliente {
 		
 	}
 	
-	@label(title:"Recurso") //
+	@label(title:"Recurso") ///
 	@help(text: "Nesta tela, cadastre novos recursos para usar em seus compromissos.")
 	@auditing
 	entity recurso {
 		nome: string
 		label: "Nome"
+		autoComplete
 		listFilter(many: "Recursos")
 		web(styleClass: "ui-md-12")
 		help(text: "Informe um nome para o recurso.")
@@ -200,6 +201,7 @@ service cliente {
 		
 		email: string?
 		label: "E-mail"
+		autoComplete(data)
 		validation(name: Email 	message: "O 'E-mail' informado é inválido.")
 		web(styleClass: "ui-md-12")
 		help(text: "Caso o recurso seja um usuário do Kerubin, informe o e-mail de login deste usuário, exemplo: fulano@gmail.com. Assim este usuário conseguirá manipular sua agenda.")
@@ -252,47 +254,66 @@ service cliente {
 		horaIni: time
 		label: "Hora de início"
 		web(styleClass: "ui-md-2")
-		sort(order: asc position: 0)
+		sort(order: asc position: 1)
 		help(text: "Informe a hora de início desse compromisso.")
 		
 		dataFim: date?
 		label: "Data de término"
 		web(styleClass: "ui-md-2")
-		sort(order: asc position: 0)
+		sort(order: asc position: 2)
 		help(text: "Informe a data de término desse compromisso.")
 		
 		horaFim: time?
 		label: "Hora de término"
 		web(styleClass: "ui-md-2")
-		sort(order: asc position: 0)
+		sort(order: asc position: 3)
 		help(text: "Informe a hora de término desse compromisso.")
 		
 		diaTodo: boolean?
 		label: "O dia todo"
 		web(styleClass: "ui-md-1")
-		sort(order: asc position: 0)
 		help(text: "Marque essa opção caso o compromisso dure o dia todo.")
+		
+		situacao: CompromissoSituacao
+		label: "Situação"
+		web(styleClass: "ui-md-2")
+		help(text: "Situação do compromisso.")
 		
 		separator /* SEPARATOR */
 		descricao: string[1000]?
 		label: "Descrição"
 		web(styleClass: "ui-md-12")
 		help(text: "Informe uma descrição para o compromisso.")
+		grid(hidden) 
 		
 		local: string?
 		label: "Local"
 		web(styleClass: "ui-md-12")
 		help(text: "Informe o local do compromisso.")
-		autoFocus
-		unaccent
+		grid(hidden) 
 		
 		recursos: refers recurso? oneToMany(owner)
 		label: "Recursos"
 		web(styleClass: "ui-md-12")
+		grid(hidden) 
 		help(text: "Informe os recursos desse compromisso.")
 	}
 	
-	
+	@label("Situação do compromisso")
+	enum CompromissoSituacao {
+		NAO_INICIADO
+		label: "Não iniciado"
+		default
+		
+		EXECUTANDO
+		label: "Executando"
+		
+		FINALIZADO
+		label: "Finalizado"
+		
+		CANCELADO
+		label: "Cancelado"
+	}
 	
 	@label("Tipo da pessoa")
 	enum TipoPessoa {		
