@@ -1,10 +1,12 @@
 package br.com.kerubin.api.cadastros.agenda.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -47,6 +49,20 @@ public class AgendaServiceImpl implements AgendaService {
 	}
 	
 	@Override
+	public boolean isRecursoLivreNoPeriodo(UUID ignoredId, String email, LocalDate dataIni, LocalTime horaIni, LocalDate dataFim,
+			LocalTime horaFim) {
+		
+		return agendaDataProvider.countCompromissosDoRecursoNoPeriodo(ignoredId, email, dataIni, horaIni, dataFim, horaFim) == 0;
+	}
+	
+	@Override
+	public long countCompromissosDoRecursoNoPeriodo(UUID ignoredId, String email, LocalDate dataIni, LocalTime horaIni,
+			LocalDate dataFim, LocalTime horaFim) {
+		
+		return agendaDataProvider.countCompromissosDoRecursoNoPeriodo(ignoredId, email, dataIni, horaIni, dataFim, horaFim);
+	}
+	
+	@Override
 	public AgendaResumoDTO countCompromissosDoRecurso(ParametrosAgenda parametros) {
 		
 		Long count = agendaDataProvider.countCompromissosDoRecurso(parametros);
@@ -81,5 +97,7 @@ public class AgendaServiceImpl implements AgendaService {
 				.collect(Collectors.toList()) :
 				Collections.emptyList();
 	}
+
+	
 
 }

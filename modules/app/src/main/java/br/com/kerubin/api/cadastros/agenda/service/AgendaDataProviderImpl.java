@@ -3,8 +3,10 @@ package br.com.kerubin.api.cadastros.agenda.service;
 import static br.com.kerubin.api.servicecore.util.CoreUtils.isNotEmpty;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import br.com.kerubin.api.cadastros.agenda.model.ParametrosAgenda;
@@ -56,6 +59,66 @@ public class AgendaDataProviderImpl implements AgendaDataProvider {
 			.where(expression)
 			.orderBy(qCompromissoEntity.dataIni.asc(), qCompromissoEntity.horaIni.asc())			
 			.fetchAll().fetch();
+	}
+	
+	@Transactional
+	@Override
+	public long countCompromissosDoRecursoNoPeriodo(UUID ignoredId, String email, LocalDate dataIni, LocalTime horaIni,
+			LocalDate dataFim, LocalTime horaFim) {
+
+		JPAQueryFactory query = new JPAQueryFactory(em);
+		QCompromissoEntity qCompromissoEntity = QCompromissoEntity.compromissoEntity;
+		
+		List<CompromissoSituacao> situacoes = Arrays.asList(CompromissoSituacao.NAO_INICIADO, CompromissoSituacao.EXECUTANDO);
+		// Check intersections of periods.
+		//   ----
+		//     ----
+		//  ----
+		//--    --
+		
+		// Datas passadas dentro do intervalo das datas do banco, excluíndo os extremos, que seria datas iguas no banco as passadas.
+		BooleanExpression dataIniBetweenExp = Expressions.asDate(dataIni).gt(qCompromissoEntity.dataIni)
+				.and(Expressions.asDate(dataIni).lt(qCompromissoEntity.dataFim));
+		
+		BooleanExpression dataFimBetweenExp = Expressions.asDate(dataFim).gt(qCompromissoEntity.dataIni)
+				.and(Expressions.asDate(dataFim).lt(qCompromissoEntity.dataFim));
+		BooleanExpression datasBetweenExp = dataIniBetweenExp.or(dataFimBetweenExp);
+		
+		BooleanExpression dbDataIniBetweenExp = qCompromissoEntity.dataIni.gt(dataIni).and(qCompromissoEntity.dataIni.lt(dataFim));
+		BooleanExpression dbDataFimBetweenExp = qCompromissoEntity.dataFim.gt(dataIni).and(qCompromissoEntity.dataFim.lt(dataFim));
+		BooleanExpression dbDatasBetweenExp = dbDataIniBetweenExp.or(dbDataFimBetweenExp);
+		
+		// Horas
+		BooleanExpression horaIniBetweenExp = Expressions.asTime(horaIni).between(qCompromissoEntity.horaIni, qCompromissoEntity.horaFim);
+		BooleanExpression horaFimBetweenExp = Expressions.asTime(horaFim).between(qCompromissoEntity.horaIni, qCompromissoEntity.horaFim);
+		
+		BooleanExpression dbHoraIniBetweenExp = qCompromissoEntity.horaIni.between(horaIni, horaFim);
+		BooleanExpression dbHoraFimBetweenExp = qCompromissoEntity.horaFim.between(horaIni, horaFim);
+		
+		// Datas iguais (mesma data, ou seja, mesmo dia)
+		
+		BooleanExpression dataIniEqualsExp = qCompromissoEntity.dataIni.eq(dataIni).and(horaIniBetweenExp.or(dbHoraIniBetweenExp));
+		BooleanExpression dataFimEqualsExp = qCompromissoEntity.dataFim.eq(dataFim).and(horaFimBetweenExp.or(dbHoraFimBetweenExp));
+		BooleanExpression anyDataEqualsAndHorasBetweenExp = dataIniEqualsExp.or(dataFimEqualsExp);
+		
+		BooleanExpression datasDiffAndBetweenExp = datasBetweenExp.or(dbDatasBetweenExp);
+		BooleanExpression periodExp = anyDataEqualsAndHorasBetweenExp.or(datasDiffAndBetweenExp);
+		/////////////////////////////
+		
+		
+		BooleanExpression expression = periodExp
+				.and(qCompromissoEntity.situacao.in(situacoes))
+				.and(qCompromissoEntity.recursos.any().email.eq(email));
+		
+		if (ignoredId != null) {
+			expression = expression.and(qCompromissoEntity.id.ne(ignoredId)); // Ignore its self.
+		}
+				
+		
+		return query.select(qCompromissoEntity.count())
+				.from(qCompromissoEntity)
+				.where(expression)
+				.fetchOne();
 	}
 	
 	@Transactional(readOnly = true)
