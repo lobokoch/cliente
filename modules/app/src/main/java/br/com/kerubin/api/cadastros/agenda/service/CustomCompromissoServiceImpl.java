@@ -72,8 +72,7 @@ public class CustomCompromissoServiceImpl extends CompromissoServiceImpl {
 	private void validateResourceIsFreeInRange(CompromissoEntity entity) {
 		if (isNotEmpty(entity.getRecursos())) {
 			entity.getRecursos().forEach(recurso -> {
-				String email = recurso.getEmail();
-				long count = agendaService.countCompromissosDoRecursoNoPeriodo(entity.getId(), email, 
+				long count = agendaService.countCompromissosDoRecursoNoPeriodo(entity.getId(), recurso.getEmail(), 
 						entity.getDataIni(), entity.getHoraIni(), entity.getDataFim(), entity.getHoraFim());
 				
 				if (count > 0) {
@@ -86,7 +85,7 @@ public class CustomCompromissoServiceImpl extends CompromissoServiceImpl {
 						confita = "conflitam";						
 					}
 					throw new AgendaException(MessageFormat.format("{0} {1} {2} para \"{3}\" que {4} com o período informado.", 
-							existe, count, comp, email, confita));				
+							existe, count, comp, recurso.getNome(), confita));				
 				}
 			});
 		}
