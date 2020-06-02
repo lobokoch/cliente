@@ -7,6 +7,7 @@ import java.util.UUID;
 import br.com.kerubin.api.cadastros.agenda.model.AgendaDTO;
 import br.com.kerubin.api.cadastros.agenda.model.AgendaResumoDTO;
 import br.com.kerubin.api.cadastros.agenda.model.ParametrosAgenda;
+import br.com.kerubin.api.cadastros.agenda.model.ParametrosAgendaDoDia;
 
 public interface AgendaService {
 
@@ -18,5 +19,7 @@ public interface AgendaService {
 
 	long countCompromissosDoRecursoNoPeriodo(UUID ignoredId, String email, LocalDate dataIni, LocalTime horaIni, LocalDate dataFim,
 			LocalTime horaFim);
+
+	AgendaDTO getAgendaDoDia(ParametrosAgendaDoDia parametros);
 
 }

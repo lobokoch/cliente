@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.kerubin.api.cadastros.agenda.model.AgendaDTO;
 import br.com.kerubin.api.cadastros.agenda.model.AgendaResumoDTO;
 import br.com.kerubin.api.cadastros.agenda.model.ParametrosAgenda;
+import br.com.kerubin.api.cadastros.agenda.model.ParametrosAgendaDoDia;
 import br.com.kerubin.api.cadastros.agenda.service.AgendaService;
 
 @RestController
@@ -17,6 +18,11 @@ public class AgendaController {
 	
 	@Inject
 	private AgendaService agendaService;
+	
+	@GetMapping("/agendaDoDia")
+	public AgendaDTO getAgendaDoPeriodo(ParametrosAgendaDoDia parametros) {
+		return agendaService.getAgendaDoDia(parametros);
+	}
 	
 	@GetMapping("/agendaDoMes")
 	public AgendaDTO getAgendaDoMes(ParametrosAgenda parametros) {

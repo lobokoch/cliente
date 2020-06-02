@@ -27,4 +27,6 @@ public class CompromissoDTO {
 	private String descricao;
 	private String local;
 	private List<RecursoDTO> recursos;
+	private String organizadorNome;
+	private String organizadorEmail;
 }

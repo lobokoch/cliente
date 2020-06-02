@@ -20,6 +20,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import br.com.kerubin.api.cadastros.agenda.model.ParametrosAgenda;
+import br.com.kerubin.api.cadastros.agenda.model.ParametrosAgendaDoDia;
 import br.com.kerubin.api.cadastros.agenda.model.RecursoDTO;
 import br.com.kerubin.api.cadastros.cliente.CompromissoSituacao;
 import br.com.kerubin.api.cadastros.cliente.entity.compromisso.CompromissoEntity;
@@ -48,13 +49,36 @@ public class AgendaDataProviderImpl implements AgendaDataProvider {
 	
 	@Transactional(readOnly = true)
 	@Override
+	public List<CompromissoEntity> getCompromissosDoDia(ParametrosAgendaDoDia params) {
+		JPAQueryFactory query = new JPAQueryFactory(em);
+		QCompromissoEntity qCompromissoEntity = QCompromissoEntity.compromissoEntity;
+		boolean hasParams = params != null;
+		LocalDate data = hasParams && params.getData() != null ? params.getData() : LocalDate.now();
+		
+		List<CompromissoSituacao> situacoes = Arrays.asList(CompromissoSituacao.NAO_INICIADO, CompromissoSituacao.EXECUTANDO);
+		
+		BooleanExpression expression = qCompromissoEntity.dataIni.loe(data)
+				.and(qCompromissoEntity.dataFim.goe(data))
+				.and(qCompromissoEntity.situacao.in(situacoes));
+		
+		if (hasParams && isNotEmpty(params.getRecursoEmails())) {
+			expression = expression.and(qCompromissoEntity.recursos.any().email.in(params.getRecursoEmails()));
+		}
+		
+		return query.selectFrom(qCompromissoEntity)
+			.where(expression)
+			.orderBy(qCompromissoEntity.dataIni.asc(), qCompromissoEntity.horaIni.asc())			
+			.fetchAll().fetch();
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
 	public List<CompromissoEntity> getComprimissosDoMes(ParametrosAgenda params) {
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		QCompromissoEntity qCompromissoEntity = QCompromissoEntity.compromissoEntity;
 		
 		BooleanExpression expression = buildExpressionForComprimissosDoMes(qCompromissoEntity, params);
 		
-		// 04/05/2020
 		return query.selectFrom(qCompromissoEntity)
 			.where(expression)
 			.orderBy(qCompromissoEntity.dataIni.asc(), qCompromissoEntity.horaIni.asc())			
@@ -157,5 +181,6 @@ public class AgendaDataProviderImpl implements AgendaDataProvider {
 		
 		return expression;
 	}
+
 
 }
